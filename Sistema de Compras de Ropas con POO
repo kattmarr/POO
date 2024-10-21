@@ -1,0 +1,79 @@
+
+from abc import ABC, abstractmethod
+
+
+class Producto(ABC):
+    def __init__(self, nombre, precio):
+        self._nombre = nombre  # Encapsulación
+        self._precio = precio  # Encapsulación
+
+    @abstractmethod
+    def obtener_info(self):
+        pass
+
+    def obtener_precio(self):
+        return self._precio
+
+
+class Camisa(Producto):
+    def __init__(self, nombre, precio, talla):
+        super().__init__(nombre, precio)
+        self._talla = talla
+
+    def obtener_info(self):
+        return f"Camisa: {self._nombre}, Talla: {self._talla}, Precio: {self._precio}"
+
+class Pantalon(Producto):
+    def __init__(self, nombre, precio, talla):
+        super().__init__(nombre, precio)
+        self._talla = talla
+
+    def obtener_info(self):
+        return f"Pantalón: {self._nombre}, Talla: {self._talla}, Precio: {self._precio}"
+
+class Zapato(Producto):
+    def __init__(self, nombre, precio, talla):
+        super().__init__(nombre, precio)
+        self._talla = talla
+
+    def obtener_info(self):
+        return f"Zapato: {self._nombre}, Talla: {self._talla}, Precio: {self._precio}"
+
+
+class Tienda:
+    def __init__(self):
+        self._productos = []  # Encapsulación
+
+    def agregar_producto(self, producto):
+        self._productos.append(producto)
+
+    def mostrar_productos(self):
+        for i, producto in enumerate(self._productos, start=1):
+            print(f"{i}. {producto.obtener_info()}")
+
+    def procesar_compra(self, indices_seleccionados):
+        total = 0
+        for indice in indices_seleccionados:
+            if 0 <= indice < len(self._productos):
+                total += self._productos[indice].obtener_precio()
+            else:
+                print("Índice inválido.")
+        return total
+
+
+if __name__ == "__main__":
+    tienda = Tienda()
+
+ 
+    tienda.agregar_producto(Camisa("Camisa de rayas", 25.99, "M"))
+    tienda.agregar_producto(Pantalon("Pantalón vaquero", 45.50, "L"))
+    tienda.agregar_producto(Zapato("Zapatos de cuero", 89.99, 42))
+
+   
+    print("Productos disponibles:")
+    tienda.mostrar_productos()
+
+  
+    indices_seleccionados = [0, 1]  
+    total_compra = tienda.procesar_compra(indices_seleccionados)
+    print(f"Total de la compra: ${total_compra:.2f}")
